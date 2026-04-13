@@ -30,7 +30,8 @@ int	parsing(char *file, t_data *data)
 		close (fd_dir);
 		return (print_error(ERR_DIR_FILE), 1);
 	}
-	// if (read_file_content(fd, data))
+	if (read_file_content(fd, data))
+		return (1);
 	close (fd);
 	return (0);
 }

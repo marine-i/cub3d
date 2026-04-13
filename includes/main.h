@@ -8,10 +8,16 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-# define ERR_ARGS 		"Bad number of arguments"
-# define ERR_EXT_FILE	"Invalid file extension"
-# define ERR_READ_FILE	"Cannot read/open file"
-# define ERR_DIR_FILE	"Is a directory not a file"
+# define ERR_ARGS 			"Bad number of arguments"
+# define ERR_EXT_FILE		"Invalid file extension"
+# define ERR_READ_FILE		"Cannot read/open file"
+# define ERR_DIR_FILE		"Is a directory not a file"
+# define ERR_TEXT_PATH		"Invalid texture path"
+# define ERR_TEXT_DUP		"Invalid texture duplicate"
+# define ERR_FILE_CONF		"Map before config"
+# define ERR_FILE_EMPTY		"File is empty"
+# define ERR_FILE_ELEM		"Missing elements config"
+# define ERR_NO_MAP			"No map found"
 
 typedef struct s_textures
 {
@@ -21,6 +27,7 @@ typedef struct s_textures
 	char	*ea_path;
 	int		floor_color;
 	int		ceiling_color;
+	int		count_elements;
 }	t_textures;
 
 typedef struct s_player
@@ -47,15 +54,16 @@ typedef struct data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	t_textures	*textures;
-	t_map		*map;
-	t_player	*player;
-	t_game		*game;
+	t_textures	textures;
+	t_map		map;
+	t_player	player;
+	t_game		game;
 }	t_data;
 
 
 // PARSING
 int		parsing(char *file, t_data *data);
+int		read_file_content(int fd, t_data *data);
 
 // UTILS
 void	print_error(char *msg);

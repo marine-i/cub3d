@@ -14,7 +14,7 @@ SRCS =  ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strl
 		ft_memmove.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_strdup.c ft_calloc.c ft_substr.c ft_putchar_fd.c \
 		ft_putstr_fd.c ft_putnbr_fd.c ft_putendl_fd.c ft_strjoin.c ft_strtrim.c ft_strmapi.c ft_striteri.c ft_itoa.c \
 		ft_split.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstiter.c ft_lstclear.c ft_lstmap.c \
-		ft_printf.c ft_printhex.c ft_printnbr.c ft_printstr.c
+		ft_printf.c ft_printhex.c ft_printnbr.c ft_printstr.c get_next_line.c
 
 SRCS_WITH_SRCDIR = $(addprefix $(SRCDIR), $(SRCS))
 OBJS = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRCS_WITH_SRCDIR))

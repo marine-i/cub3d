@@ -30,7 +30,7 @@ SUPP_FILE    = valgrind_readline_leaks_ignore.supp
 SRC_DIR = srcs
 
 SRCS =	main.c \
-		parsing/parsing.c \
+		parsing/parsing.c parsing/parsing_read_file.c \
 		utils/error.c
 
 SRCS_WITH_SRCDIR = $(addprefix $(SRC_DIR)/,$(SRCS))
