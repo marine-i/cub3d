@@ -1,6 +1,34 @@
 #include "main.h"
 
-int	main(void)
+void	init_data(t_data *data)
 {
-	printf("coucou");
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
+
+	data->textures->no_path = NULL;
+	data->textures->so_path = NULL;
+	data->textures->we_path = NULL;
+	data->textures->ea_path = NULL;
+	data->textures->floor_color = -1;
+	data->textures->ceiling_color = -1;
+
+	data->map->height = -1;
+	data->map->widht = -1;
+	data->map->map = NULL;
+
+	data->player->pos_x = -1;
+	data->player->pos_y = -1;
+	data->player->dir_x = -1;
+	data->player->dir_y = -1;
+}
+
+int	main(int ac, char **av)
+{
+	t_data	data;
+	(void)data;
+	if (ac != 2)
+		return(print_error(ERR_ARGS), EXIT_FAILURE);
+	// init_data(&data);
+	if (parsing(av[1], &data))
+		return (EXIT_FAILURE);
 }
