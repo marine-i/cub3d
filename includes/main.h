@@ -8,16 +8,26 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+# define ERR_MALLOC			"Malloc fail"
 # define ERR_ARGS 			"Bad number of arguments"
 # define ERR_EXT_FILE		"Invalid file extension"
 # define ERR_READ_FILE		"Cannot read/open file"
 # define ERR_DIR_FILE		"Is a directory not a file"
 # define ERR_TEXT_PATH		"Invalid texture path"
-# define ERR_TEXT_DUP		"Invalid texture duplicate"
+# define ERR_ELEM_DUP		"Invalid texture/color duplicate"
 # define ERR_FILE_CONF		"Map before config"
 # define ERR_FILE_EMPTY		"File is empty"
 # define ERR_FILE_ELEM		"Missing elements config"
 # define ERR_NO_MAP			"No map found"
+
+enum e_status
+{
+	SUCCESS 	= 0,
+	FAILURE 	= 1,
+	MAP 		= 3,
+	CONTINUE 	= 4
+	// BREAK 		= 4
+};
 
 typedef struct s_textures
 {
@@ -68,5 +78,6 @@ int		read_file_content(int fd, t_data *data);
 // UTILS
 void	print_error(char *msg);
 void	cleanup(t_data);
+void	*ft_free(char **result, int i);
 
 #endif

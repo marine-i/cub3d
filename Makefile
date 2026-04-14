@@ -30,8 +30,8 @@ SUPP_FILE    = valgrind_readline_leaks_ignore.supp
 SRC_DIR = srcs
 
 SRCS =	main.c \
-		parsing/parsing.c parsing/parsing_read_file.c \
-		utils/error.c
+		parsing/parsing.c parsing/parsing_read_file.c parsing/parsing_colors.c parsing/parsing_textures_path.c\
+		utils/error.c utils/cleanup.c
 
 SRCS_WITH_SRCDIR = $(addprefix $(SRC_DIR)/,$(SRCS))
 #Objects
@@ -141,7 +141,7 @@ re : fclean all
 # valgrind: $(NAME) $(SUPP_FILE)
 # 	valgrind --suppressions=$(SUPP_FILE) --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes ./$(NAME) || true
 
-valgrind: $(NAME) $(SUPP_FILE)
+valgrind: $(NAME)
 	valgrind  --leak-check=full --track-fds=yes --show-leak-kinds=all ./$(NAME) || true
 
 # CHAT = { ignore_readline_leaks Memcheck:Leak ... obj:*/libreadline.so.* } { ignore_bin_functions Memcheck:Leak ... obj:/usr/bin/* } { ncurses_termcap Memcheck:Leak match-leak-kinds:reachable fun:rl_make_bare_keymap fun:rl_generic_bind fun:rl_parse_and_bind obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.2 fun:rl_initialize fun:readline }

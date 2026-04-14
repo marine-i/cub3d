@@ -3,3 +3,7 @@ SO ./path_texture
 WE ./path_texture
 EA ./path_texture
 
+F 0,1,5
+C 1,2,3
+
+11

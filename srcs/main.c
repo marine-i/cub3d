@@ -30,6 +30,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return(print_error(ERR_ARGS), EXIT_FAILURE);
 	init_data(&data);
-	if (parsing(av[1], &data))
+	if (parsing(av[1], &data) == FAILURE)
 		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
