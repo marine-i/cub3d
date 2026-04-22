@@ -178,6 +178,8 @@ int	check_map_line(char *str, t_data *data)
 	i = 0;
 	while (str[i])
 	{
+		if (str[0] == '\n')
+			printf("ligne\n");
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E')
 		{
 			printf("le char est : %c\n", str[i]);
@@ -208,6 +210,11 @@ int	read_file_content(int fd, t_data *data)
 			return (free(line), FAILURE);
 		else if (ret == SUCCESS)
 			data->textures.count_elements++;
+		else if (ret == CONTINUE && data->map.nb_line_map > 0)
+		{
+			// free
+			printf("on est ici\n");
+		}
 		else if (ret == MAP)
 		{
 			if (data->textures.count_elements < 6)

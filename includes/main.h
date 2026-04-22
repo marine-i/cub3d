@@ -1,12 +1,12 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-#include "libft.h"
+# include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 # define ERR_MALLOC			"Malloc fail"
 # define ERR_ARGS 			"Bad number of arguments"
@@ -22,10 +22,10 @@
 
 enum e_status
 {
-	SUCCESS 	= 0,
-	FAILURE 	= 1,
-	MAP 		= 3,
-	CONTINUE 	= 4
+	SUCCESS		= 0,
+	FAILURE		= 1,
+	MAP			= 3,
+	CONTINUE	= 4
 	// BREAK 		= 4
 };
 
