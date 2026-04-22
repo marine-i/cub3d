@@ -210,11 +210,6 @@ int	read_file_content(int fd, t_data *data)
 			return (free(line), FAILURE);
 		else if (ret == SUCCESS)
 			data->textures.count_elements++;
-		else if (ret == CONTINUE && data->map.nb_line_map > 0)
-		{
-			// free
-			printf("on est ici\n");
-		}
 		else if (ret == MAP)
 		{
 			if (data->textures.count_elements < 6)
@@ -222,12 +217,26 @@ int	read_file_content(int fd, t_data *data)
 				free(line);
 				return (print_error(ERR_FILE_CONF), FAILURE);
 			}
+			
+			// return (free(line), print_error(ERR_MAP_INVALID), FAILURE)
 			data->map.nb_line_map++;
 			check_map_line(line, data);
-			// return (free(line), 0);
+		}
+		else if (ret == CONTINUE && data->map.nb_line_map > 0) // si on a deja commencé à lire la map et qu'on tombe sur une ligne vide ou que c'est la fin du fichier
+		{
+			// free line et data et close fd ?
+			// ajouter si '\n' sans rien apres if end of file
+			printf("ligne vide\n");	
+			data->map.map_interrupted = 1;
 		}
 		free(line);
 		line = get_next_line(fd);
+	}
+	if (ret == MAP && data->map.map_interrupted == 1)
+	{
+		printf("map interrompue\n");
+		free(line);
+		return (print_error(ERR_MAP_INVALID), FAILURE);
 	}
 	if (data->textures.count_elements < 6)
 		return (print_error(ERR_FILE_ELEM), FAILURE);

@@ -19,6 +19,7 @@
 # define ERR_FILE_EMPTY		"File is empty"
 # define ERR_FILE_ELEM		"Missing elements config"
 # define ERR_NO_MAP			"No map found"
+# define ERR_MAP_INVALID	"Map invalid"
 
 enum e_status
 {
@@ -55,6 +56,7 @@ typedef struct s_map
 	int		widht;
 	int		check_element;
 	int		nb_line_map;
+	int		map_interrupted;
 }	t_map;
 
 typedef struct s_game

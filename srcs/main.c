@@ -18,6 +18,7 @@ void	init_data(t_data *data)
 	data->map.map = NULL;
 	data->map.check_element = 0;
 	data->map.nb_line_map = 0;
+	data->map.map_interrupted = 0;
 
 	data->player.pos_x = -1;
 	data->player.pos_y = -1;
