@@ -9,7 +9,7 @@ int	check_nb_virgule(char *line)
 
 	i = 0;
 	j = 0;
-	while(line[i])
+	while (line[i])
 	{
 		if (line[i] == ',')
 			j++;
@@ -76,6 +76,7 @@ int	parse_color(char *line, int *data)
 {
 	char	**result;
 	int		*tab_color;
+	int		i;
 
 	if (*data != -1)
 		return (print_error(ERR_ELEM_DUP), FAILURE); // free si tab alloué
@@ -93,7 +94,7 @@ int	parse_color(char *line, int *data)
 		ft_free(result, 4);
 		return (print_error(ERR_MALLOC), FAILURE);
 	}
-	int	i = 0;
+	i = 0;
 	while (i < 3)
 	{
 		if (parse_str_color(result[i]) == FAILURE)
@@ -107,16 +108,8 @@ int	parse_color(char *line, int *data)
 		i++;
 	}
 	free(result);
-	i = 0;
-	while (i < 3)
-	{
-		printf("tab : %d\n", tab_color[i]);
-		i++;
-	}
-	
 	*data = (tab_color[0] << 16 | tab_color[1] << 8 | tab_color[2]);
 	free(tab_color);
-	printf("couleur :%d\n", *data);
 	return (SUCCESS);
 }
 
@@ -129,6 +122,7 @@ int	parse_texture_path(char *line, char **data) // rajouter le .xmp
 	if (*data)
 		return (print_error(ERR_ELEM_DUP), FAILURE);
 	i = 0;
+	fd = -1;
 	while (line[i] && (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13)))
 		i++;
 	str = ft_strdup(&line[i]);
@@ -137,8 +131,8 @@ int	parse_texture_path(char *line, char **data) // rajouter le .xmp
 		i++;
 	if (str[i] == '\n')
 		str[i] = '\0';
-	printf("le path est : %s\n", str); // a supp
-	fd = open(str, O_RDONLY);
+	if (check_ext_file(str, ".xpm") == SUCCESS)
+		fd = open(str, O_RDONLY);
 	if (fd < 0)
 	{
 		free(str);
@@ -146,9 +140,9 @@ int	parse_texture_path(char *line, char **data) // rajouter le .xmp
 	}
 	close(fd);
 	*data = str;
+	free(str);
 	return (SUCCESS);
 }
-
 
 int	check_elements(char *str, t_data *data)
 {
@@ -174,6 +168,31 @@ int	check_elements(char *str, t_data *data)
 	return (MAP);
 }
 
+
+// element valide : 0 n s e w " "
+
+int	check_map_line(char *str, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E')
+		{
+			printf("le char est : %c\n", str[i]);
+			data->map.check_element++;
+			printf("il y a %d\n", data->map.check_element);
+			if (data->map.check_element > 1)
+				printf("il y a trop de player\n");
+		}
+		else if (str[i] != '1' && str[i] != '0' && str[i] != '\n' && str[i] != ' ') // tab?
+			printf("mauvais element\n");
+		i++;
+	}
+	return (i);
+}
+
 int	read_file_content(int fd, t_data *data)
 {
 	char	*line;
@@ -186,7 +205,7 @@ int	read_file_content(int fd, t_data *data)
 	{
 		ret = check_elements(line, data);
 		if (ret == FAILURE)
-			return (free(line), 1);
+			return (free(line), FAILURE);
 		else if (ret == SUCCESS)
 			data->textures.count_elements++;
 		else if (ret == MAP)
@@ -196,20 +215,20 @@ int	read_file_content(int fd, t_data *data)
 				free(line);
 				return (print_error(ERR_FILE_CONF), FAILURE);
 			}
-			printf("map\n"); // parse_map
-			data->map.map = malloc(sizeof(2)); // a supp
-			data->map.map[0] = ft_strdup(line); // a supp
-			data->map.map[1] = NULL; // a supp
+			data->map.nb_line_map++;
+			check_map_line(line, data);
 			// return (free(line), 0);
 		}
 		free(line);
-		line = get_next_line(fd);	
+		line = get_next_line(fd);
 	}
 	if (data->textures.count_elements < 6)
 		return (print_error(ERR_FILE_ELEM), FAILURE);
-	if (data->map.map == NULL)
+	if (data->map.nb_line_map == 0)
 		return (print_error(ERR_NO_MAP), FAILURE);
 	if (data->map.map == NULL && data->textures.count_elements < 6)
 		return (print_error(ERR_FILE_EMPTY), FAILURE);
+	if (data->map.check_element == 0)
+		printf("manque player\n");
 	return (SUCCESS);
 }

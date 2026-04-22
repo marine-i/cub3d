@@ -1,9 +1,9 @@
 #include "main.h"
 
-void	free_all(t_data)
-{
-	//free tout
-}
+// void	free_all(t_data *data)
+// {
+// 	//free tout
+// }
 
 
 void	*ft_free(char **result, int i)

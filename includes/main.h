@@ -53,6 +53,8 @@ typedef struct s_map
 	char	**map;
 	int		height;
 	int		widht;
+	int		check_element;
+	int		nb_line_map;
 }	t_map;
 
 typedef struct s_game
@@ -74,10 +76,11 @@ typedef struct data
 // PARSING
 int		parsing(char *file, t_data *data);
 int		read_file_content(int fd, t_data *data);
+int		check_ext_file(char *file, char *ext_file);
 
 // UTILS
 void	print_error(char *msg);
-void	cleanup(t_data);
+// void	cleanup(t_data *data);
 void	*ft_free(char **result, int i);
 
 #endif

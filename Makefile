@@ -24,7 +24,7 @@ INCS         = -Iincludes -Ilibft/include
 CC           = cc
 CFLAGS       = -Wall -Werror -Wextra -g3
 DEPFLAGS	 = -MMD -MP  #flag # -MMD: génère .d ; -MP: cibles phony pour éviter les erreurs si un .h disparaît
-SUPP_FILE    = valgrind_readline_leaks_ignore.supp
+# SUPP_FILE    = valgrind_readline_leaks_ignore.supp
 
 #Sources
 SRC_DIR = srcs
@@ -56,7 +56,8 @@ all: $(LIBFT_A) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking $(NAME)..."
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $@ -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $@
+# 	-lreadline
 # 	@echo "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
 # 	@echo "⣾⣻⣿⣷⣯⣽⡏⣷⣿⣿⣻⣾⣻⢿⣻⣿⣾⣿⢿⣷⣷⣷⢿⣿⡿⣾⣳⣿⣯⣻⢿⣿⣾⣿⡿⣿⣷⣿⣿⣿⣿⣿⣯⣟⣿⣾⡿⣷⡷⣿⣻⣻⣿⣽⣿⣳⣿⢿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣾⣎⣿⣽⣿⣿⣽⣿⣿⢿⣿⡿⣿⣿⡯⣽⣿⣿⣿⢿⢿⣯⡿⣿⣯⡽⣻⣟⣿⣟⣿"
 # 	@echo "⣿⣷⣿⣛⣯⣾⡿⣿⣿⣾⣿⡿⣿⣾⣿⣻⣿⣿⣟⣿⣹⣿⣟⣻⣟⣯⣯⣿⣿⣿⣿⣿⣽⣿⣟⡯⣿⣿⣿⣷⣿⣿⣿⣿⣟⢿⣾⣿⣿⣿⣟⣾⣿⣽⢿⣿⣿⣿⣽⣿⣿⣿⣿⣟⡿⢛⣟⣿⣾⣿⡽⣷⣿⣿⣻⣾⣷⣿⣿⣿⣿⣽⣿⣿⣻⣿⢿⣿⣿⢷⣷⣿⣿⣿⣿⣿⣟⣷⣿⣿⣽⣿⣾⢿"

@@ -16,6 +16,8 @@ void	init_data(t_data *data)
 	data->map.height = -1;
 	data->map.widht = -1;
 	data->map.map = NULL;
+	data->map.check_element = 0;
+	data->map.nb_line_map = 0;
 
 	data->player.pos_x = -1;
 	data->player.pos_y = -1;
@@ -26,9 +28,9 @@ void	init_data(t_data *data)
 int	main(int ac, char **av)
 {
 	t_data	data;
-	(void)data;
+
 	if (ac != 2)
-		return(print_error(ERR_ARGS), EXIT_FAILURE);
+		return (print_error(ERR_ARGS), EXIT_FAILURE);
 	init_data(&data);
 	if (parsing(av[1], &data) == FAILURE)
 		return (EXIT_FAILURE);
