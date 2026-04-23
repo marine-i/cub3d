@@ -20,6 +20,9 @@
 # define ERR_FILE_ELEM		"Missing elements config"
 # define ERR_NO_MAP			"No map found"
 # define ERR_MAP_INVALID	"Map invalid"
+# define ERR_MAP_PLAYERS	"Map To many player"
+# define ERR_MAP_NO_PLAYERS	"Map no player"
+
 
 enum e_status
 {
@@ -43,8 +46,8 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	int	pos_x;
-	int	pos_y;
+	int	pos_x; // double
+	int	pos_y; // double
 	int	dir_x;
 	int	dir_y;
 }	t_player;
@@ -57,6 +60,7 @@ typedef struct s_map
 	int		check_element;
 	int		nb_line_map;
 	int		map_interrupted;
+	t_list	*tmp_map;
 }	t_map;
 
 typedef struct s_game
@@ -80,9 +84,18 @@ int		parsing(char *file, t_data *data);
 int		read_file_content(int fd, t_data *data);
 int		check_ext_file(char *file, char *ext_file);
 
+// PARSING COLORS
+int		parse_color(char *line, int *data);
+
+// PARSING TEXTURES
+int		parse_texture_path(char *line, char **data);
+
+// PARSING UTILS
+int		check_ext_file(char *file, char *ext_file);
+
 // UTILS
 void	print_error(char *msg);
-// void	cleanup(t_data *data);
 void	*ft_free(char **result, int i);
+// void	cleanup(t_data *data);
 
 #endif
