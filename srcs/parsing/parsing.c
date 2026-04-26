@@ -2,21 +2,21 @@
 
 int	parsing(char *file, t_data *data)
 {
-	int	fd;
-	int	fd_dir;
+	int		fd;
+	char	buff[1];
 
 	if (check_ext_file(file, ".cub") == FAILURE)
 		return (print_error(ERR_EXT_FILE), FAILURE);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (print_error(ERR_READ_FILE), FAILURE);
-	fd_dir = open(file, __O_DIRECTORY);
-	if (fd_dir >= 0)
+	if (read(fd, buff, 1) < 0)
 	{
-		close (fd);
-		close (fd_dir);
+		close(fd);
 		return (print_error(ERR_DIR_FILE), FAILURE);
 	}
+	close(fd);
+	fd = open(file, O_RDONLY);
 	if (read_file_content(fd, data) == FAILURE)
 		return (close(fd), FAILURE);
 	// fill map

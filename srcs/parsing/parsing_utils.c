@@ -12,3 +12,22 @@ int	check_ext_file(char *file, char *ext_file)
 		return (FAILURE);
 	return (SUCCESS);
 }
+
+void	empty_gnl(int fd)
+{
+	char	*tmp;
+
+	tmp = get_next_line(fd);
+	while(tmp)
+	{
+		free(tmp);
+		tmp = get_next_line(fd);
+	}
+}
+
+int	is_space(char c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (SUCCESS);
+	return (FAILURE);
+}

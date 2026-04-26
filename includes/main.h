@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+
 # define ERR_MALLOC			"Malloc fail"
 # define ERR_ARGS 			"Bad number of arguments"
 # define ERR_EXT_FILE		"Invalid file extension"
@@ -92,10 +93,13 @@ int		parse_texture_path(char *line, char **data);
 
 // PARSING UTILS
 int		check_ext_file(char *file, char *ext_file);
+int		is_space(char c);
+void	empty_gnl(int fd);
 
 // UTILS
 void	print_error(char *msg);
 void	*ft_free(char **result, int i);
 // void	cleanup(t_data *data);
-
+void	free_all(t_data *data);
+void	free_split(char **tab);
 #endif

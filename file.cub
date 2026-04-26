@@ -1,4 +1,4 @@
-NO ./path_texture.xpm
+NO./path_texture.xpm
 SO ./path_texture.xpm
 WE ./path_texture.xpm
 EA ./path_texture.xpm
@@ -11,6 +11,6 @@ C 1,2,3
 1
 1011
 1    1
-1    
+1   
 1S
-1
+1 

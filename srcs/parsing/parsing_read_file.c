@@ -1,27 +1,40 @@
 #include "main.h"
 
 //  check valid map
+// NO ./path_texture.xpm si NO./path_texture.xpm msg pas coherent
+// int	handle_texture(char *str, char **path)
+// {
+// 	if (is_space(str) == FAILURE)
+// 		return (print_error("Invalid identifier formatting"), FAILURE);
+// 	return (parse_texture_path(&str, path));
+// }
 
+// int	handle_color(char *str, int *color)
+// {
+// 	if (is_space(str) == FAILURE)
+// 		return (print_error("Invalid identifier formatting"), FAILURE);
+// 	return (parse_color(&str, color));
+// }
 int	check_elements(char *str, t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+	while (str[i] && is_space(str[i]) == SUCCESS)
 		i++;
 	if (str[i] == '\0' || str[i] == '\n')
 		return (CONTINUE);
-	if (ft_strncmp(&str[i], "NO ", 3) == 0)
+	if (ft_strncmp(&str[i], "NO", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
 		return (parse_texture_path(&str[i + 3], &data->textures.no_path));
-	if (ft_strncmp(&str[i], "SO ", 3) == 0)
+	if (ft_strncmp(&str[i], "SO", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
 		return (parse_texture_path(&str[i + 3], &data->textures.so_path));
-	if (ft_strncmp(&str[i], "WE ", 3) == 0)
+	if (ft_strncmp(&str[i], "WE", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
 		return (parse_texture_path(&str[i + 3], &data->textures.we_path));
-	if (ft_strncmp(&str[i], "EA ", 3) == 0)
+	if (ft_strncmp(&str[i], "EA", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
 		return (parse_texture_path(&str[i + 3], &data->textures.ea_path));
-	if (ft_strncmp(&str[i], "F ", 2) == 0)
+	if (ft_strncmp(&str[i], "F", 1) == 0 && is_space(str[i + 1]) == SUCCESS)
 		return (parse_color(&str[i + 2], &data->textures.floor_color));
-	if (ft_strncmp(&str[i], "C ", 2) == 0)
+	if (ft_strncmp(&str[i], "C", 1) == 0 && is_space(str[i + 1]) == SUCCESS)
 		return (parse_color(&str[i + 2], &data->textures.ceiling_color));
 	return (MAP);
 }
@@ -43,7 +56,7 @@ int	check_map_line(char *str, t_data *data)
 			if (data->map.check_element > 1)
 				return (print_error(ERR_MAP_PLAYERS), FAILURE);
 		}
-		else if (str[i] != '1' && str[i] != '0' && str[i] != '\n' && str[i] != '\0' && str[i] != ' ' && str[i] != '	') // tab?
+		else if (str[i] != '1' && str[i] != '0' && str[i] != '\n' && str[i] != '\0' && str[i] != ' ' && str[i] != '\t') // tab?
 			return(print_error(ERR_MAP_INVALID), FAILURE); // a supp
 		i++;
 	}
@@ -61,11 +74,14 @@ int	check_ret_elements(t_data *data, int ret, char *line)
 		data->textures.count_elements++;
 	else if (ret == MAP)
 	{
+		if (data->map.map_interrupted == 1)
+			return (print_error(ERR_MAP_INVALID), FAILURE);
 		if (data->textures.count_elements < 6)
 			return (print_error(ERR_FILE_CONF), FAILURE);
 		data->map.nb_line_map++;
-		check_map_line(line, data);
-		ft_lstadd_back(&data->map.tmp_map, ft_lstnew(ft_strdup(line)));
+		if (check_map_line(line, data) == FAILURE)
+			return (FAILURE);
+		// ft_lstadd_back(&data->map.tmp_map, ft_lstnew(ft_strdup(line)));
 	}
 	else if (ret == CONTINUE && data->map.nb_line_map > 0) // si on a deja commencé à lire la map et qu'on tombe sur une ligne vide ou que c'est la fin du fichier
 		data->map.map_interrupted = 1;
@@ -74,8 +90,6 @@ int	check_ret_elements(t_data *data, int ret, char *line)
 
 int	check_error_file(t_data *data, int ret)
 {
-	if (ret == MAP && data->map.map_interrupted == 1)
-		return (print_error(ERR_MAP_INVALID), FAILURE);
 	if (data->textures.count_elements < 6)
 		return (print_error(ERR_FILE_ELEM), FAILURE);
 	if (data->map.nb_line_map == 0)
@@ -93,13 +107,17 @@ int	read_file_content(int fd, t_data *data)
 	int		ret;
 
 	line = get_next_line(fd);
+	ret = CONTINUE;
 	if (!line)
 		return (print_error(ERR_FILE_EMPTY), FAILURE);
 	while (line)
 	{
 		ret = check_elements(line, data);
 		if (check_ret_elements(data, ret, line) == FAILURE)
+		{
+			empty_gnl(fd);
 			return (free(line), FAILURE);
+		}
 		free(line);
 		line = get_next_line(fd);
 	}

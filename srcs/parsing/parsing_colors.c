@@ -73,7 +73,7 @@ static int	parse_str_color(char *str)
 int	parse_color(char *line, int *data)
 {
 	char	**result;
-	int		*tab_color;
+	int		tab_color[3];
 	int		i;
 
 	if (*data != -1)
@@ -82,31 +82,15 @@ int	parse_color(char *line, int *data)
 		return (FAILURE);
 	result = ft_split(line, ',');
 	if (!result || !result[0] || !result[1] || !result[2]) // a voir
-	{
-		ft_free(result, 4);
-		return (print_error(ERR_MALLOC), FAILURE); // si pb de parsing msg different
-	}
-	tab_color = malloc(sizeof(int) * 3);
-	if (!tab_color)
-	{
-		ft_free(result, 4);
-		return (print_error(ERR_MALLOC), FAILURE);
-	}
+		return (free_split(result), print_error(ERR_MALLOC), FAILURE); // si pb de parsing msg different
 	i = 0;
 	while (i < 3)
 	{
 		if (parse_str_color(result[i]) == FAILURE)
-		{
-			ft_free(result, 4); // changer et mettre i ?
-			free(tab_color); // free le tableau en entier
-			return (FAILURE);
-		}
+			return (free_split(result), FAILURE);
 		tab_color[i] = ft_atoi(result[i]);
-		free(result[i]);
 		i++;
 	}
-	free(result);
 	*data = (tab_color[0] << 16 | tab_color[1] << 8 | tab_color[2]);
-	free(tab_color);
-	return (SUCCESS);
+	return (free_split(result), SUCCESS);
 }
