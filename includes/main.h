@@ -58,9 +58,9 @@ typedef struct s_map
 {
 	char	**map;
 	int		height;
-	int		widht;
+	int		width;
 	int		check_element;
-	int		nb_line_map;
+	int		nb_line_map; // a supp (height?)
 	int		map_interrupted;
 	t_list	*tmp_map;
 }	t_map;
@@ -91,11 +91,14 @@ int		parse_color(char *line, int *data);
 
 // PARSING TEXTURES
 int		parse_texture_path(char *line, char **data);
+int		handle_texture(char *str, char **path);
+int		handle_color(char *str, int *color);
 
 // PARSING UTILS
-int		check_ext_file(char *file, char *ext_file);
-int		is_space(char c);
 void	empty_gnl(int fd);
+int		is_space(char c);
+int		check_error_file(t_data *data);
+int		check_ext_file(char *file, char *ext_file);
 
 // UTILS
 void	print_error(char *msg);

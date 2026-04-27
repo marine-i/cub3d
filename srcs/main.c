@@ -14,7 +14,7 @@ void	init_data(t_data *data)
 	data->textures.count_elements = 0;
 
 	data->map.height = -1;
-	data->map.widht = -1;
+	data->map.width = -1;
 	data->map.map = NULL;
 	data->map.check_element = 0;
 	data->map.nb_line_map = 0;

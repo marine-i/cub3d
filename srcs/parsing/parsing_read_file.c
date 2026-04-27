@@ -1,24 +1,5 @@
 #include "main.h"
 
-//  check valid map
-// NO ./path_texture.xpm si NO./path_texture.xpm msg pas coherent
-
-int	handle_texture(char *str, char **path)
-{
-	if (is_space(*str) == SUCCESS)
-		return (parse_texture_path(str, path));
-	else
-		return(print_error(ERR_ELEM_FORM), FAILURE);
-}
-
-int	handle_color(char *str, int *color)
-{
-	if (is_space(*str) == SUCCESS)
-		return (parse_color(str, color));
-	else
-		return(print_error(ERR_ELEM_FORM), FAILURE);
-}
-
 int	check_elements(char *str, t_data *data)
 {
 	int	i;
@@ -43,12 +24,23 @@ int	check_elements(char *str, t_data *data)
 	return (MAP);
 }
 
-// element valide : 0 n s e w " "
-int	check_map_line(char *str, t_data *data)
+int	check_start_end_line(char *str, int len, int i)
 {
-	int	i;
+	int	end;
 
-	i = 0;
+	end = 0;
+	if (str[i] == '0' || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W') // ajouter dir
+		return (FAILURE);
+	end = len - 1;
+	while (end >= 0 && is_space(str[end]) == SUCCESS)
+		end--;
+	if (end >= 0 && (str[end] == '0' || str[end] == 'N' || str[end] == 'S' || str[end] == 'E' || str[end] == 'W'))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int check_map_chars(char *str, int i, t_data *data)
+{
 	while (str[i])
 	{
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E')
@@ -57,15 +49,35 @@ int	check_map_line(char *str, t_data *data)
 			if (data->map.check_element > 1)
 				return (print_error(ERR_MAP_PLAYERS), FAILURE);
 		}
-		else if (str[i] != '1' && str[i] != '0' && str[i] != '\n' && str[i] != '\0' && str[i] != ' ' && str[i] != '\t') // tab?
-			return(print_error(ERR_MAP_INVALID), FAILURE); // a supp
+		else if (str[i] != '1' && str[i] != '0' && str[i] != '\0' && str[i] != ' ' && str[i] != '\t') // tab a retirer?
+			return(print_error(ERR_MAP_INVALID), FAILURE);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-// parcourir ligne bool si 1 , si 0 ou  et bool = 0 erreur
-//si != ' '  ou '	' ou 1
+// element valide : 0 n s e w " "
+int	check_map_line(char *str, t_data *data)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(str);
+	if (len > 0 && str[len - 1] == '\n')
+	{
+		str[len - 1] = '\0';
+		len--;
+	}
+	if (len > data->map.width)
+		data->map.width = len;
+	printf("la taile est %d\n", data->map.width);
+	while (str[i] && is_space(str[i]) == SUCCESS)
+		i++;
+	if (check_start_end_line(str, len, i) == FAILURE)
+		return (print_error(ERR_MAP_INVALID), FAILURE);
+	return (check_map_chars(str, i, data));
+}
 
 int	check_ret_elements(t_data *data, int ret, char *line)
 {
@@ -79,26 +91,13 @@ int	check_ret_elements(t_data *data, int ret, char *line)
 			return (print_error(ERR_MAP_INVALID), FAILURE);
 		if (data->textures.count_elements < 6)
 			return (print_error(ERR_FILE_CONF), FAILURE);
-		data->map.nb_line_map++;
 		if (check_map_line(line, data) == FAILURE)
 			return (FAILURE);
-		// ft_lstadd_back(&data->map.tmp_map, ft_lstnew(ft_strdup(line)));
+		data->map.nb_line_map++;
+		ft_lstadd_back(&data->map.tmp_map, ft_lstnew(ft_strdup(line)));
 	}
 	else if (ret == CONTINUE && data->map.nb_line_map > 0) // si on a deja commencé à lire la map et qu'on tombe sur une ligne vide ou que c'est la fin du fichier
 		data->map.map_interrupted = 1;
-	return (SUCCESS);
-}
-
-int	check_error_file(t_data *data)
-{
-	if (data->textures.count_elements < 6)
-		return (print_error(ERR_FILE_ELEM), FAILURE);
-	if (data->map.nb_line_map == 0)
-		return (print_error(ERR_NO_MAP), FAILURE);
-	if (data->map.map == NULL && data->textures.count_elements < 6)
-		return (print_error(ERR_FILE_EMPTY), FAILURE);
-	if (data->map.check_element == 0)
-		return (print_error(ERR_MAP_NO_PLAYERS), FAILURE);
 	return (SUCCESS);
 }
 
@@ -128,8 +127,9 @@ int	read_file_content(int fd, t_data *data)
 	return (SUCCESS);
 }
 
-	// while (data->map.tmp_map)
-	// {
-	// 	printf("%s", (char *)data->map.tmp_map->content);
-	// 	data->map.tmp_map = data->map.tmp_map->next;
-	// }
+
+// while (data->map.tmp_map)
+// 	{
+// 		printf("%s\n", (char *)data->map.tmp_map->content);
+// 		data->map.tmp_map = data->map.tmp_map->next;
+// 	}
