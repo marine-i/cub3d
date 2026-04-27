@@ -86,6 +86,9 @@ int		parsing(char *file, t_data *data);
 int		read_file_content(int fd, t_data *data);
 int		check_ext_file(char *file, char *ext_file);
 
+// PARSING FILL MAP
+int		fill_map(t_data *data);
+
 // PARSING COLORS
 int		parse_color(char *line, int *data);
 

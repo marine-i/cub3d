@@ -39,10 +39,11 @@ void	free_all(t_data *data)
 		return ;
 	if (data->map.tmp_map)
 		data_clear(&data->map.tmp_map);
+	if (data->map.map)
+		free_split(data->map.map);
 	free_path_textures(data);
 	
 }
-
 
 void	free_split(char **tab)
 {

@@ -49,7 +49,7 @@ int check_map_chars(char *str, int i, t_data *data)
 			if (data->map.check_element > 1)
 				return (print_error(ERR_MAP_PLAYERS), FAILURE);
 		}
-		else if (str[i] != '1' && str[i] != '0' && str[i] != '\0' && str[i] != ' ' && str[i] != '\t') // tab a retirer?
+		else if (str[i] != '1' && str[i] != '0' && str[i] != '\0' && str[i] != ' ') // tab a retirer?
 			return(print_error(ERR_MAP_INVALID), FAILURE);
 		i++;
 	}
@@ -71,8 +71,7 @@ int	check_map_line(char *str, t_data *data)
 	}
 	if (len > data->map.width)
 		data->map.width = len;
-	printf("la taile est %d\n", data->map.width);
-	while (str[i] && is_space(str[i]) == SUCCESS)
+	while (str[i] && str[i] == ' ')
 		i++;
 	if (check_start_end_line(str, len, i) == FAILURE)
 		return (print_error(ERR_MAP_INVALID), FAILURE);
