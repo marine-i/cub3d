@@ -66,7 +66,7 @@ static int	parse_str_color(char *str)
 	if (!str)
 		return (FAILURE);
 	if (is_digit(str) == FAILURE || check_limits(str) == FAILURE)
-		return (printf("ca va pas c'est trop petit ou trop grand\n"), FAILURE); // a changer
+		return (print_error(ERR_ELEM_FORM), FAILURE);
 	return (SUCCESS);
 }
 
@@ -79,10 +79,12 @@ int	parse_color(char *line, int *data)
 	if (*data != -1)
 		return (print_error(ERR_ELEM_DUP), FAILURE); // free si tab alloué
 	if (check_nb_virgule(line) == FAILURE)
-		return (FAILURE);
+		return (print_error(ERR_ELEM_FORM), FAILURE);
 	result = ft_split(line, ',');
-	if (!result || !result[0] || !result[1] || !result[2]) // a voir
-		return (free_split(result), print_error(ERR_MALLOC), FAILURE); // si pb de parsing msg different
+	if (!result)
+		return (print_error(ERR_MALLOC), FAILURE);
+	if (!result[0] || !result[1] || !result[2])
+		return (free_split(result), print_error(ERR_ELEM_FORM), FAILURE);
 	i = 0;
 	while (i < 3)
 	{
