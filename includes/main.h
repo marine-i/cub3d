@@ -16,6 +16,7 @@
 # define ERR_DIR_FILE		"Is a directory not a file"
 # define ERR_TEXT_PATH		"Invalid texture path"
 # define ERR_ELEM_DUP		"Invalid texture/color duplicate"
+# define ERR_ELEM_FORM		"Invalid texture/color formatting"
 # define ERR_FILE_CONF		"Map before config"
 # define ERR_FILE_EMPTY		"File is empty"
 # define ERR_FILE_ELEM		"Missing elements config"

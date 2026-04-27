@@ -19,9 +19,9 @@ int	parsing(char *file, t_data *data)
 	fd = open(file, O_RDONLY);
 	if (read_file_content(fd, data) == FAILURE)
 		return (close(fd), FAILURE);
-	// fill map
+	// fill map (data.tmpmap to char **map)
 	// printf("nb line map : %d\n", data->map.nb_line_map);
-	// check la map
+	// check la map floodfill
 	close (fd);
 	return (SUCCESS);
 }

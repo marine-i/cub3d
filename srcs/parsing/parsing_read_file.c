@@ -2,19 +2,23 @@
 
 //  check valid map
 // NO ./path_texture.xpm si NO./path_texture.xpm msg pas coherent
-// int	handle_texture(char *str, char **path)
-// {
-// 	if (is_space(str) == FAILURE)
-// 		return (print_error("Invalid identifier formatting"), FAILURE);
-// 	return (parse_texture_path(&str, path));
-// }
 
-// int	handle_color(char *str, int *color)
-// {
-// 	if (is_space(str) == FAILURE)
-// 		return (print_error("Invalid identifier formatting"), FAILURE);
-// 	return (parse_color(&str, color));
-// }
+int	handle_texture(char *str, char **path)
+{
+	if (is_space(*str) == SUCCESS)
+		return (parse_texture_path(str, path));
+	else
+		return(print_error(ERR_ELEM_FORM), FAILURE);
+}
+
+int	handle_color(char *str, int *color)
+{
+	if (is_space(*str) == SUCCESS)
+		return (parse_color(str, color));
+	else
+		return(print_error(ERR_ELEM_FORM), FAILURE);
+}
+
 int	check_elements(char *str, t_data *data)
 {
 	int	i;
@@ -24,23 +28,22 @@ int	check_elements(char *str, t_data *data)
 		i++;
 	if (str[i] == '\0' || str[i] == '\n')
 		return (CONTINUE);
-	if (ft_strncmp(&str[i], "NO", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
-		return (parse_texture_path(&str[i + 3], &data->textures.no_path));
-	if (ft_strncmp(&str[i], "SO", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
-		return (parse_texture_path(&str[i + 3], &data->textures.so_path));
-	if (ft_strncmp(&str[i], "WE", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
-		return (parse_texture_path(&str[i + 3], &data->textures.we_path));
-	if (ft_strncmp(&str[i], "EA", 2) == 0 && is_space(str[i + 2]) == SUCCESS)
-		return (parse_texture_path(&str[i + 3], &data->textures.ea_path));
-	if (ft_strncmp(&str[i], "F", 1) == 0 && is_space(str[i + 1]) == SUCCESS)
-		return (parse_color(&str[i + 2], &data->textures.floor_color));
-	if (ft_strncmp(&str[i], "C", 1) == 0 && is_space(str[i + 1]) == SUCCESS)
-		return (parse_color(&str[i + 2], &data->textures.ceiling_color));
+	if (ft_strncmp(&str[i], "NO", 2) == 0)
+		return (handle_texture(&str[i + 2], &data->textures.no_path));
+	if (ft_strncmp(&str[i], "SO", 2) == 0)
+		return (handle_texture(&str[i + 2], &data->textures.so_path));
+	if (ft_strncmp(&str[i], "WE", 2) == 0)
+		return (handle_texture(&str[i + 2], &data->textures.we_path));
+	if (ft_strncmp(&str[i], "EA", 2) == 0)
+		return (handle_texture(&str[i + 2], &data->textures.ea_path));
+	if (ft_strncmp(&str[i], "F", 1) == 0)
+		return (handle_color(&str[i + 1], &data->textures.floor_color));
+	if (ft_strncmp(&str[i], "C", 1) == 0)
+		return (handle_color(&str[i + 1], &data->textures.ceiling_color));
 	return (MAP);
 }
 
 // element valide : 0 n s e w " "
-
 int	check_map_line(char *str, t_data *data)
 {
 	int	i;
@@ -48,8 +51,6 @@ int	check_map_line(char *str, t_data *data)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\n') // a voir
-			str[i] = '\0';
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E')
 		{
 			data->map.check_element++;
@@ -88,7 +89,7 @@ int	check_ret_elements(t_data *data, int ret, char *line)
 	return (SUCCESS);
 }
 
-int	check_error_file(t_data *data, int ret)
+int	check_error_file(t_data *data)
 {
 	if (data->textures.count_elements < 6)
 		return (print_error(ERR_FILE_ELEM), FAILURE);
@@ -107,9 +108,9 @@ int	read_file_content(int fd, t_data *data)
 	int		ret;
 
 	line = get_next_line(fd);
-	ret = CONTINUE;
 	if (!line)
 		return (print_error(ERR_FILE_EMPTY), FAILURE);
+	ret = CONTINUE;
 	while (line)
 	{
 		ret = check_elements(line, data);
@@ -121,7 +122,7 @@ int	read_file_content(int fd, t_data *data)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (check_error_file(data, ret) == FAILURE)
+	if (check_error_file(data) == FAILURE)
 		return (free(line), FAILURE);
 	free(line);
 	return (SUCCESS);
