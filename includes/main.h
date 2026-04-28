@@ -48,10 +48,10 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	int	pos_x; // double
-	int	pos_y; // double
-	int	dir_x;
-	int	dir_y;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
 }	t_player;
 
 typedef struct s_map

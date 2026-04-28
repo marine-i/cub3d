@@ -22,12 +22,12 @@ int	parsing(char *file, t_data *data)
 	close(fd);
 	if (fill_map(data) == FAILURE) // fill map (data.tmpmap to char **map)
 		return (FAILURE);
-	// int	i = 0;
-	// while (data->map.map[i])
-	// {
-	// 	printf("map ligne : %s\n", data->map.map[i]);
-	// 	i++;
-	// }
+	int	i = 0;
+	while (data->map.map[i])
+	{
+		printf("map ligne : %s\n", data->map.map[i]);
+		i++;
+	}
 	// if (flood_fill(data) == FAILURE)// check la map floodfill
 	// 	return (FAILURE);
 	return (SUCCESS);

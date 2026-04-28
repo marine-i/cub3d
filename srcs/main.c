@@ -37,6 +37,6 @@ int	main(int ac, char **av)
 	if (parsing(av[1], &data) == FAILURE)
 		return (free_all(&data), EXIT_FAILURE);
 	free_all(&data);
-	
+
 	return (EXIT_SUCCESS);
 }

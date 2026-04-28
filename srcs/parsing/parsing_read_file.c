@@ -89,7 +89,7 @@ int	check_ret_elements(t_data *data, int ret, char *line)
 		if (data->map.map_interrupted == 1)
 			return (print_error(ERR_MAP_INVALID), FAILURE);
 		if (data->textures.count_elements < 6)
-			return (print_error(ERR_FILE_CONF), FAILURE);
+			return (print_error(ERR_FILE_ELEM), FAILURE);
 		if (check_map_line(line, data) == FAILURE)
 			return (FAILURE);
 		data->map.nb_line_map++;
