@@ -31,7 +31,7 @@ SRC_DIR = srcs
 
 SRCS =	main.c \
 		parsing/parsing.c parsing/parsing_read_file.c parsing/parsing_colors.c parsing/parsing_textures_path.c\
-		parsing/parsing_fill_map.c parsing/parsing_utils.c \
+		parsing/parsing_fill_map.c parsing/parsing_map.c parsing/parsing_utils.c \
 		utils/error.c utils/cleanup.c
 
 SRCS_WITH_SRCDIR = $(addprefix $(SRC_DIR)/,$(SRCS))

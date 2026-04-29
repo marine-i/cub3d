@@ -20,15 +20,16 @@ int	parsing(char *file, t_data *data)
 	if (read_file_content(fd, data) == FAILURE)
 		return (close(fd), FAILURE);
 	close(fd);
-	if (fill_map(data) == FAILURE) // fill map (data.tmpmap to char **map)
+	if (fill_map(data) == FAILURE)
 		return (FAILURE);
-	int	i = 0;
-	while (data->map.map[i])
-	{
-		printf("map ligne : %s\n", data->map.map[i]);
-		i++;
-	}
-	// if (flood_fill(data) == FAILURE)// check la map floodfill
-	// 	return (FAILURE);
+	if (check_map(data) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }
+
+	// int	i = 0;
+	// while (data->map.map[i])
+	// {
+	// 	printf("map ligne : %s\n", data->map.map[i]);
+	// 	i++;
+	// }

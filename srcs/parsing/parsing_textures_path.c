@@ -5,7 +5,7 @@ int	handle_texture(char *str, char **path)
 	if (is_space(*str) == SUCCESS)
 		return (parse_texture_path(str, path));
 	else
-		return(print_error(ERR_ELEM_FORM), FAILURE);
+		return (print_error(ERR_ELEM_FORM), FAILURE);
 }
 
 int	handle_color(char *str, int *color)
@@ -13,7 +13,7 @@ int	handle_color(char *str, int *color)
 	if (is_space(*str) == SUCCESS)
 		return (parse_color(str, color));
 	else
-		return(print_error(ERR_ELEM_FORM), FAILURE);
+		return (print_error(ERR_ELEM_FORM), FAILURE);
 }
 
 int	parse_texture_path(char *line, char **data)

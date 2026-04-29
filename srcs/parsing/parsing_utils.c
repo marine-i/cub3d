@@ -31,7 +31,7 @@ void	empty_gnl(int fd)
 	char	*tmp;
 
 	tmp = get_next_line(fd);
-	while(tmp)
+	while (tmp)
 	{
 		free(tmp);
 		tmp = get_next_line(fd);

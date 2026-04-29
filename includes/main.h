@@ -62,6 +62,8 @@ typedef struct s_map
 	int		check_element;
 	int		nb_line_map; // a supp (height?)
 	int		map_interrupted;
+	int		pos_x; // a supp?
+	int		pos_y; // a supp?
 	t_list	*tmp_map;
 }	t_map;
 
@@ -88,6 +90,7 @@ int		check_ext_file(char *file, char *ext_file);
 
 // PARSING FILL MAP
 int		fill_map(t_data *data);
+int		check_map(t_data *data);
 
 // PARSING COLORS
 int		parse_color(char *line, int *data);
@@ -109,4 +112,5 @@ void	*ft_free(char **result, int i);
 // void	cleanup(t_data *data);
 void	free_all(t_data *data);
 void	free_split(char **tab);
+
 #endif

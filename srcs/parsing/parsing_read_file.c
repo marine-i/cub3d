@@ -24,22 +24,22 @@ int	check_elements(char *str, t_data *data)
 	return (MAP);
 }
 
-int	check_start_end_line(char *str, int len, int i)
-{
-	int	end;
+// int	check_start_end_line(char *str, int len, int i)
+// {
+// 	int	end;
 
-	end = 0;
-	if (str[i] == '0' || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W') // ajouter dir
-		return (FAILURE);
-	end = len - 1;
-	while (end >= 0 && is_space(str[end]) == SUCCESS)
-		end--;
-	if (end >= 0 && (str[end] == '0' || str[end] == 'N' || str[end] == 'S' || str[end] == 'E' || str[end] == 'W'))
-		return (FAILURE);
-	return (SUCCESS);
-}
+// 	end = 0;
+// 	if (str[i] == '0' || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W') // ajouter dir
+// 		return (FAILURE);
+// 	end = len - 1;
+// 	while (end >= 0 && is_space(str[end]) == SUCCESS)
+// 		end--;
+// 	if (end >= 0 && (str[end] == '0' || str[end] == 'N' || str[end] == 'S' || str[end] == 'E' || str[end] == 'W'))
+// 		return (FAILURE);
+// 	return (SUCCESS);
+// }
 
-int check_map_chars(char *str, int i, t_data *data)
+int	check_map_chars(char *str, int i, t_data *data)
 {
 	while (str[i])
 	{
@@ -56,7 +56,6 @@ int check_map_chars(char *str, int i, t_data *data)
 	return (SUCCESS);
 }
 
-// element valide : 0 n s e w " "
 int	check_map_line(char *str, t_data *data)
 {
 	int	i;
@@ -73,8 +72,6 @@ int	check_map_line(char *str, t_data *data)
 		data->map.width = len;
 	while (str[i] && str[i] == ' ')
 		i++;
-	if (check_start_end_line(str, len, i) == FAILURE)
-		return (print_error(ERR_MAP_INVALID), FAILURE);
 	return (check_map_chars(str, i, data));
 }
 

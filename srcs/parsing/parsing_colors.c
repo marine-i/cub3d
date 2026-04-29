@@ -31,7 +31,7 @@ static int	is_digit(char *str)
 		return (FAILURE);
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 		i++;
-	while (str[i] && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+	while (str[i] && (str[i] == ' ' || is_space(str[i]) == SUCCESS))
 		i++;
 	if (str[i] != '\0')
 		return (FAILURE);
@@ -47,7 +47,7 @@ static int	check_limits(char *str)
 	nb = 0;
 	if (!str)
 		return (FAILURE);
-	while (str[i] && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+	while (str[i] && is_space(str[i]) == SUCCESS)
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
