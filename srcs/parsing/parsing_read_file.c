@@ -49,8 +49,8 @@ int	check_map_chars(char *str, int i, t_data *data)
 			if (data->map.check_element > 1)
 				return (print_error(ERR_MAP_PLAYERS), FAILURE);
 		}
-		else if (str[i] != '1' && str[i] != '0' && str[i] != '\0' && str[i] != ' ') // tab a retirer?
-			return(print_error(ERR_MAP_INVALID), FAILURE);
+		else if (str[i] != '1' && str[i] != '0' && str[i] != ' ')
+			return (print_error(ERR_MAP_INVALID), FAILURE);
 		i++;
 	}
 	return (SUCCESS);

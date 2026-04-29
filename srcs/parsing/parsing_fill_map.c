@@ -2,7 +2,7 @@
 
 void	get_player(t_data *data, int i, int j, char *tmp_line)
 {
-	if (tmp_line[j] == 'N') // dup for S W E
+	if (is_player(tmp_line[j]) == SUCCESS)
 	{
 		data->player.pos_x = j;
 		data->player.pos_y = i;
