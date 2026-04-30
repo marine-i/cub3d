@@ -51,12 +51,12 @@ int	fill_map(t_data *data)
 	tmp = data->map.tmp_map;
 	while (i < data->map.nb_line_map && tmp)
 	{
-		data->map.map[i] = malloc(sizeof (char *) * (data->map.width) + 1);
+		data->map.map[i] = malloc(sizeof (char) * (data->map.width) + 1);
 		// data->map.map[i] = malloc(sizeof (char *) * (ft_strlen(tmp->content) + 1));
 		if (!data->map.map[i])
 			return (ft_free(data->map.map, i), print_error(ERR_MALLOC), FAILURE);
 		if (handle_fill_map(i, tmp, data) == FAILURE)
-			return (ft_free(data->map.map, i), print_error("ca va pas"), FAILURE); // a changer
+			return (ft_free(data->map.map, i), print_error(ERR_MAP_INVALID), FAILURE); // a changer
 		i++;
 		tmp = tmp->next;
 	}

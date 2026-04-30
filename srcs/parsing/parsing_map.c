@@ -26,7 +26,8 @@ int	check_map(t_data *data)
 					return (print_error(ERR_MAP_INVALID), FAILURE);
 				if (data->map.map[y][x + 1] == 'X'
 					|| data->map.map[y - 1][x] == 'X'
-					|| data->map.map[y + 1][x] == 'X')
+					|| data->map.map[y + 1][x] == 'X'
+					|| data->map.map[y][x - 1] == 'X')
 					return (print_error(ERR_MAP_INVALID), FAILURE);
 			}
 			x++;

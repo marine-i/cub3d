@@ -22,7 +22,7 @@
 # define ERR_FILE_ELEM		"Missing elements config"
 # define ERR_NO_MAP			"No map found"
 # define ERR_MAP_INVALID	"Map invalid"
-# define ERR_MAP_PLAYERS	"Map To many player"
+# define ERR_MAP_PLAYERS	"Too many players"
 # define ERR_MAP_NO_PLAYERS	"Map no player"
 
 
