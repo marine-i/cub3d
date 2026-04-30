@@ -1,32 +1,32 @@
 # --- COLORS --- #
-GREEN = \033[0;32m
-RESET = \033[0m
-PRUPLE = \033[1;35m
-BLUE        = \033[34m
-BUBBLE_BLUE    = \033[1;38;5;153m
-CYAN        = \033[0;36m
-GRAY        = \033[90m
-GREEN        = \033[33;32m
-ORANGE        = \033[38;5;214m
-RED            = \033[31m
-PINK        = \033[38;5;213m
-YELLOW        = \033[33m
-BOLD        = \033[1m
-PINK = \033[38;5;213m
+GREEN		=	\033[0;32m
+PRUPLE		=	\033[1;35m
+BLUE		=	\033[34m
+BUBBLE_BLUE	=	\033[1;38;5;153m
+CYAN		=	\033[0;36m
+GRAY		=	\033[90m
+ORANGE		=	\033[38;5;214m
+RED			=	\033[31m
+PINK		=	\033[38;5;213m
+YELLOW		=	\033[33m
+BOLD		=	\033[1m
+PINK		=	\033[38;5;213m
+RESET		=	\033[0m
 
 
 #Arguments
 
-NAME         = cub3D
+NAME		= cub3D
 
-INCS         = -Iincludes -Ilibft/include
+INCS		= -Iincludes -Ilibft/include
 
-CC           = cc
-CFLAGS       = -Wall -Werror -Wextra -g3
-DEPFLAGS	 = -MMD -MP  #flag # -MMD: génère .d ; -MP: cibles phony pour éviter les erreurs si un .h disparaît
+CC			= cc
+CFLAGS		= -Wall -Werror -Wextra -g3
+DEPFLAGS	= -MMD -MP  #flag # -MMD: génère .d ; -MP: cibles phony pour éviter les erreurs si un .h disparaît
 # SUPP_FILE    = valgrind_readline_leaks_ignore.supp
 
 #Sources
+
 SRC_DIR = srcs
 
 SRCS =	main.c \
@@ -35,6 +35,7 @@ SRCS =	main.c \
 		utils/error.c utils/cleanup.c
 
 SRCS_WITH_SRCDIR = $(addprefix $(SRC_DIR)/,$(SRCS))
+
 #Objects
 
 OBJ_DIR      = obj
@@ -105,9 +106,9 @@ $(NAME): $(OBJS) $(LIBFT_A)
 # 	@echo "⠀⠴⣘⠠⠂⡀⠄⢀⡀⠀⢀⡀⣀⢂⡡⣐⠁⢂⠍⣠⡣⡑⣐⠠⣅⠃⡇⡘⡕⡬⣡⠲⠀⣆⢎⡘⡥⠜⡑⣍⡍⡓⢢⠘⠆⡀⠜⣀⠞⠀⠾⡩⡍⣠⢃⢁⠮⢙⠪⣬⣬⠃⡬⣎⣝⠺⣆⠦⠯⠅⡈⠜⠶⠵⢬⠹⣷⡪⣕⣉⡮⠅⣭⢘⣦⣩⣑⣉⡝⡶⢾⢴⣢⣏⡻⣞⣡⢳⣵⢵⠾⣿⣱⢯"
 
 $(LIBFT_A):
-	@echo "Compiling Libft..."
+	@printf "Compiling Libft..."
 	@make -C libft/ > /dev/null
-	@echo "$(GREEN)✓ Libft compiled!$(RESET)"
+	@printf "$(GREEN)✓ Libft compiled!\n$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -117,14 +118,14 @@ clean :
 	@echo "Cleaning objects files..."
 	rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	@echo "$(GREEN)✓ Cleaned!$(RESET)"
+	@printf "$(GREEN)✓ Cleaned!\n$(RESET)"
 
 fclean : clean
 	@echo "Removing $(NAME)..."
 	rm -f $(NAME)
 	rm -f $(SUPP_FILE)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)✓ Cleaned!$(RESET)"
+	@printf "$(GREEN)✓ Cleaned!\n$(RESET)"
 
 
 re : fclean all
