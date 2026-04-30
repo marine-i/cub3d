@@ -42,7 +42,6 @@ void	free_all(t_data *data)
 	if (data->map.map)
 		free_split(data->map.map);
 	free_path_textures(data);
-	
 }
 
 void	free_split(char **tab)

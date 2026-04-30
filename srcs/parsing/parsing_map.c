@@ -22,12 +22,11 @@ int	check_map(t_data *data)
 				|| is_player(data->map.map[y][x]) == SUCCESS)
 			{
 				if (y == 0 || y == (data->map.nb_line_map - 1)
-					|| x == 0 || x == data->map.width - 1)
-					return (print_error(ERR_MAP_INVALID), FAILURE);
-				if (data->map.map[y][x + 1] == 'X'
+					|| x == 0 || x == (data->map.width - 1)
 					|| data->map.map[y - 1][x] == 'X'
 					|| data->map.map[y + 1][x] == 'X'
-					|| data->map.map[y][x - 1] == 'X')
+					|| data->map.map[y][x - 1] == 'X'
+					|| data->map.map[y][x + 1] == 'X')
 					return (print_error(ERR_MAP_INVALID), FAILURE);
 			}
 			x++;
