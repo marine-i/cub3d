@@ -20,6 +20,9 @@ NAME		= cub3D
 
 INCS		= -Iincludes -Ilibft/include
 
+MLX_DIR		= minilibx-linux
+MLX_REPO	= https:\/\/github.com/42paris/minilibx-linux.git
+
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g3
 DEPFLAGS	= -MMD -MP  #flag # -MMD: génère .d ; -MP: cibles phony pour éviter les erreurs si un .h disparaît
@@ -54,7 +57,12 @@ LIBFT_A      = $(LIBFT_DIR)/libft.a
 #                                   Rules                                      #
 # **************************************************************************** #
 
-all: $(LIBFT_A) $(NAME)
+all: $(LIBFT_A) $(NAME) $(MLX_DIR)
+	@echo "Minilibx prete!"
+
+$(MLX_DIR):
+	@git clone $(MLX_REPO)
+	@$(MAKE) -C $(MLX_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking $(NAME)..."
@@ -118,6 +126,7 @@ clean :
 	@echo "Cleaning objects files..."
 	rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -rf $(MLX_DIR)
 	@printf "$(GREEN)✓ Cleaned!\n$(RESET)"
 
 fclean : clean
