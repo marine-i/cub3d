@@ -24,6 +24,10 @@
 # define ERR_MAP_INVALID	"Map invalid"
 # define ERR_MAP_PLAYERS	"Too many players"
 # define ERR_MAP_NO_PLAYERS	"Map no player"
+# define ERR_INIT_MLX		"Failed to init mlx_ptr"
+# define ERR_WINDOW			"Failed to create window"
+# define ERR_IMG			"Failed to create img"
+
 
 
 enum e_status

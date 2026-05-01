@@ -20,6 +20,8 @@ NAME		= cub3D
 
 INCS		= -Iincludes -Ilibft/include
 
+# MLXFLAGS = -Lminilibx-linux -lmlx -lXext -lX11
+
 MLX_DIR		= minilibx-linux
 MLX_REPO	= https:\/\/github.com/42paris/minilibx-linux.git
 
@@ -154,7 +156,7 @@ re : fclean all
 # 	valgrind --suppressions=$(SUPP_FILE) --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes ./$(NAME) || true
 
 valgrind: $(NAME)
-	valgrind  --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes ./$(NAME) maps/invalid/texture/no_texture1.cub|| true
+	valgrind  --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes ./$(NAME) file.cub || true
 
 # CHAT = { ignore_readline_leaks Memcheck:Leak ... obj:*/libreadline.so.* } { ignore_bin_functions Memcheck:Leak ... obj:/usr/bin/* } { ncurses_termcap Memcheck:Leak match-leak-kinds:reachable fun:rl_make_bare_keymap fun:rl_generic_bind fun:rl_parse_and_bind obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.2 fun:rl_initialize fun:readline }
 
