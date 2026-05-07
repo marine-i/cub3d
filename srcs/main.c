@@ -1,5 +1,3 @@
-// #include "main.h"
-
 #include "cub3d.h"
 
 void	init_data(t_data *data)

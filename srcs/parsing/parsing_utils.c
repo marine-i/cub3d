@@ -1,5 +1,3 @@
-// #include "main.h"
-
 #include "cub3d.h"
 
 int	check_ext_file(char *file, char *ext_file)

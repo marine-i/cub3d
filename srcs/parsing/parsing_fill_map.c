@@ -1,5 +1,3 @@
-// #include "main.h"
-
 #include "cub3d.h"
 
 void	get_player(t_data *data, int i, int j, char *tmp_line)

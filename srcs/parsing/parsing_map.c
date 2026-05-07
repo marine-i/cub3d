@@ -1,5 +1,3 @@
-// #include "main.h"
-
 #include "cub3d.h"
 
 int	is_player(char c)
