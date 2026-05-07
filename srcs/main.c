@@ -1,4 +1,4 @@
-#include "main.h"
+#include "cub3d.h"
 
 void	init_data(t_data *data)
 {
@@ -36,7 +36,21 @@ int	main(int ac, char **av)
 	init_data(&data);
 	if (parsing(av[1], &data) == FAILURE)
 		return (free_all(&data), EXIT_FAILURE);
-	
+	init_mlx(&data);
+	render_frame(&data);
+	mlx_loop(data.mlx_ptr);
 	free_all(&data);
 	return (EXIT_SUCCESS);
 }
+// int	main(void)
+// {
+// 	t_data	data;
+
+// 	init_test_map(&data);
+// 	init_test_player(&data);
+// 	if (init_mlx(&data))
+// 		return (1);
+// 	render_frame(data);
+// 	mlx_loop(data.mlx.mlx_ptr);
+// 	return (0);
+// }

@@ -1,4 +1,6 @@
-#include "main.h"
+// #include ""
+
+#include "cub3d.h"
 
 void	print_error(char *msg)
 {

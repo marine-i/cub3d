@@ -1,4 +1,4 @@
-#include "main.h"
+#include "cub3d.h"
 
 static int	check_nb_virgule(char *line)
 {

@@ -1,12 +1,17 @@
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
-# include "libft.h"
-
-# include <stdio.h>
-# include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
+# include "libft.h"
+# include "mlx.h"
+# include <sys/stat.h>
 # include <fcntl.h>
+# include <X11/keysym.h>
+# include <math.h>
+
+# define WIN_W 1000
+# define WIN_H 800
 
 
 # define ERR_MALLOC			"Malloc fail"
@@ -27,8 +32,6 @@
 # define ERR_INIT_MLX		"Failed to init mlx_ptr"
 # define ERR_WINDOW			"Failed to create window"
 # define ERR_IMG			"Failed to create img"
-
-
 
 enum e_status
 {
@@ -56,6 +59,8 @@ typedef struct s_player
 	double	pos_y;
 	double	dir_x;
 	double	dir_y;
+	double  plane_x; //vecteur perpendiculaire a dir represente la largeur de la camera
+	double  plane_y;
 }	t_player;
 
 typedef struct s_map
@@ -71,20 +76,60 @@ typedef struct s_map
 	t_list	*tmp_map;
 }	t_map;
 
-typedef struct s_game
+typedef struct s_ray
 {
+	double  camera_x;
+	double  raydir_x;
+	double  raydir_y;
+	int     map_x;
+	int     map_y;
+	double  delta_dist_x;
+	double  delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	perp_wall_dist;
+	int     step_x;
+	int     step_y;
+	int		side;
+	int		hit_wall; //variable pour savoir si je touche ou non un mur
+}   t_ray;
 
-}	t_game;
+typedef struct s_draw
+{
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+}	t_draw;
 
-typedef struct data
+typedef struct s_img
+{
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_img;
+
+typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_textures	textures;
 	t_map		map;
 	t_player	player;
-	t_game		game;
+	t_ray		ray; //ajout Marie
+	t_draw		draw; //ajout Marie
+	t_img		img; //ajout Marie
 }	t_data;
+
+// typedef struct s_game
+// {
+// 	t_map		map;
+// 	t_player	player;
+// 	t_ray		ray;
+// t_draw		draw;
+// 	t_data		data;
+// }	t_game;
 
 
 // PARSING
@@ -117,5 +162,27 @@ void	*ft_free(char **result, int i);
 // void	cleanup(t_data *data);
 void	free_all(t_data *data);
 void	free_split(char **tab);
+
+//fin partie Marine debut Marie
+
+// DDA ALGO
+void	init_dda(t_ray *ray, t_player *player);
+void	perform_dda(t_map *map, t_ray *ray);
+void	wall_dist(t_ray *ray);
+
+// RAY CAST
+void    init_ray_dir(t_ray *ray,t_player *player, int x);
+void	wall_projection(t_draw *draw, t_ray *ray);
+
+// DRAW
+int		init_mlx(t_data *data);
+void	pixel_put(t_img *img, int x, int y, int color);
+void	draw_column(t_data *data, int x);
+void	render_frame(t_data *data);
+
+// MINIMAP
+void	draw_square(t_data *data, int start_x, int start_y, int color);
+void	draw_minimap(t_data *data);
+void	draw_player_on_minimap(t_data *data);
 
 #endif
