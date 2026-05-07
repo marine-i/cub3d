@@ -1,4 +1,6 @@
-#include "main.h"
+// #include "main.h"
+
+#include "cub3d.h"
 
 void	data_clear(t_list **lst)
 {

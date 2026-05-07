@@ -1,4 +1,7 @@
-#include "main.h"
+// #include "main.h"
+
+#include "cub3d.h"
+
 
 int	check_elements(char *str, t_data *data)
 {

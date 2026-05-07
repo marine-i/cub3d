@@ -1,4 +1,6 @@
-#include "main.h"
+// #include "main.h"
+
+#include "cub3d.h"
 
 int	handle_texture(char *str, char **path)
 {
