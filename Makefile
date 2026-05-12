@@ -28,14 +28,14 @@ MLXFLAGS	= -Lminilibx-linux -lmlx -lXext -lX11
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g3
 DEPFLAGS	= -MMD -MP  #flag # -MMD: génère .d ; -MP: cibles phony pour éviter les erreurs si un .h disparaît
-# SUPP_FILE    = valgrind_readline_leaks_ignore.supp
+SUPP_FILE    = mlx_leaks.supp
 
 #Sources
 
 SRC_DIR = srcs
 
 SRCS =	main.c \
-		parsing/parsing.c parsing/parsing_read_file.c parsing/parsing_colors.c parsing/parsing_textures_path.c\
+		parsing/parsing.c parsing/parsing_read_file.c parsing/parsing_colors.c parsing/parsing_textures_path.c \
 		parsing/parsing_fill_map.c parsing/parsing_map.c parsing/parsing_utils.c \
 		utils/error.c utils/cleanup.c exec/dda.c exec/draw_pixels.c exec/minimap.c exec/raycast.c
 
@@ -62,14 +62,13 @@ MLX_A   	 = $(MLX_DIR)/libmlx.a
 #                                   Rules                                      #
 # **************************************************************************** #
 
-all: $(LIBFT_A) $(NAME) $(MLX_A)
-	@echo "Minilibx prete!"
+all: $(LIBFT_A) $(NAME)
 
 #$(MLX_DIR):
 #	@git clone $(MLX_REPO)
 #	@$(MAKE) -C $(MLX_DIR)
 
-$(NAME): $(OBJS) $(LIBFT_A)
+$(NAME): $(OBJS) $(LIBFT_A) $(MLX_A)
 	@echo "Linking $(NAME)..."
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(MLXFLAGS) -o $@
 	# 	-lreadline
@@ -155,38 +154,48 @@ fclean : clean
 
 re : fclean all
 
-# create .supp file that suppresses leaks from teh readline library
-# $(SUPP_FILE):
-# 	@echo "Creating valgrind suppression file for readline library"
-# 	@echo "{" > $(SUPP_FILE)
-# 	@echo "   ignore_libreadline_leaks" >> $(SUPP_FILE)
-# 	@echo "   Memcheck:Leak" >> $(SUPP_FILE)
-# 	@echo "   ..." >> $(SUPP_FILE)
-# 	@echo "   obj:*/libreadline.so.*" >> $(SUPP_FILE)
-# 	@echo "}" >> $(SUPP_FILE)
+# create .supp file that suppresses leaks from mlx library
+$(SUPP_FILE):
+	@echo "Creating valgrind suppression file..."
+	@echo "{"                              > $(SUPP_FILE)
+	@echo "   mlx_leaks"                  >> $(SUPP_FILE)
+	@echo "   Memcheck:Leak"              >> $(SUPP_FILE)
+	@echo "   ..."                        >> $(SUPP_FILE)
+	@echo "   obj:*libmlx*"              >> $(SUPP_FILE)
+	@echo "}"                             >> $(SUPP_FILE)
+	@echo "{"                             >> $(SUPP_FILE)
+	@echo "   mlx_x11_reachable"         >> $(SUPP_FILE)
+	@echo "   Memcheck:Leak"             >> $(SUPP_FILE)
+	@echo "   match-leak-kinds: reachable" >> $(SUPP_FILE)
+	@echo "   ..."                        >> $(SUPP_FILE)
+	@echo "   obj:*libX11*"              >> $(SUPP_FILE)
+	@echo "}"                             >> $(SUPP_FILE)
+	@echo "{"                             >> $(SUPP_FILE)
+	@echo "   mlx_xcb_reachable"         >> $(SUPP_FILE)
+	@echo "   Memcheck:Leak"             >> $(SUPP_FILE)
+	@echo "   match-leak-kinds: reachable" >> $(SUPP_FILE)
+	@echo "   ..."                        >> $(SUPP_FILE)
+	@echo "   obj:*libxcb*"              >> $(SUPP_FILE)
+	@echo "}"                             >> $(SUPP_FILE)
+	@echo "{"                             >> $(SUPP_FILE)
+	@echo "   mlx_xext_reachable"        >> $(SUPP_FILE)
+	@echo "   Memcheck:Leak"             >> $(SUPP_FILE)
+	@echo "   match-leak-kinds: reachable" >> $(SUPP_FILE)
+	@echo "   ..."                        >> $(SUPP_FILE)
+	@echo "   obj:*libXext*"             >> $(SUPP_FILE)
+	@echo "}"                             >> $(SUPP_FILE)
+	@echo "{"                                        >> $(SUPP_FILE)
+	@echo "   mlx_xcb_writev"                       >> $(SUPP_FILE)
+	@echo "   Memcheck:Param"                       >> $(SUPP_FILE)
+	@echo "   writev(vector[0])"                    >> $(SUPP_FILE)
+	@echo "   ..."                                  >> $(SUPP_FILE)
+	@echo "   obj:*libxcb*"                         >> $(SUPP_FILE)
+	@echo "}"                                       >> $(SUPP_FILE)
 
-# launch ./minishell with valgrind set up with the suppressed file
-# valgrind: $(NAME) $(SUPP_FILE)
-# 	valgrind --suppressions=$(SUPP_FILE) --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes ./$(NAME) || true
+valgrind: $(NAME) $(SUPP_FILE)
+	valgrind --suppressions=$(SUPP_FILE) --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes ./$(NAME) file.cub || true
 
-valgrind: $(NAME)
-	valgrind  --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes ./$(NAME) file.cub || true
-
-# CHAT = { ignore_readline_leaks Memcheck:Leak ... obj:*/libreadline.so.* } { ignore_bin_functions Memcheck:Leak ... obj:/usr/bin/* } { ncurses_termcap Memcheck:Leak match-leak-kinds:reachable fun:rl_make_bare_keymap fun:rl_generic_bind fun:rl_parse_and_bind obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.2 fun:rl_initialize fun:readline }
-
-# ignore:
-# 	@for i in $(CHAT); do \
-#    		echo $$i >> ignore.supp; \
-#     done
-
-# val:
-# 	@make
-# 	@if ! [ -f "ignore.supp" ]; then make ignore; fi
-# 	@valgrind --suppressions=./ignore.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes -s ./minishell
-
-
-
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind
 
 # inclut les fichiers .d générés par -MMD (dépendances headers)
 -include $(DEPS)
