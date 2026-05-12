@@ -1,5 +1,47 @@
 #include "cub3d.h"
 
+void	get_north_south_dir(t_data *data, char player)
+{
+	if (player == 'N')
+	{
+		data->player.dir_x = 0;
+		data->player.dir_y = -1;
+		data->player.plane_x = 0.66; //vecteur perpendiculaire a dir represente la largeur de la camera
+		data->player.plane_y = 0;
+	}
+	else if (player == 'S')
+	{
+		data->player.dir_x = 0;
+		data->player.dir_y = 1;
+		data->player.plane_x = -0.66;
+		data->player.plane_y = 0;
+	}
+}
+
+void	get_east_west_dir(t_data *data, char player)
+{
+	if (player == 'W')
+	{
+		data->player.dir_x = -1;
+		data->player.dir_y = 0;
+		data->player.plane_x = 0;
+		data->player.plane_y = -0.66;
+	}
+	else if (player == 'E')
+	{
+		data->player.dir_x = 1;
+		data->player.dir_y = 0;
+		data->player.plane_x = 0;
+		data->player.plane_y = 0.66;
+	}
+}
+
+void	get_player_direction(char player, t_data *data)
+{
+	get_north_south_dir(data, player);
+	get_east_west_dir(data, player);
+}
+
 void	get_player(t_data *data, int i, int j, char *tmp_line)
 {
 	if (is_player(tmp_line[j]) == SUCCESS)
@@ -8,8 +50,7 @@ void	get_player(t_data *data, int i, int j, char *tmp_line)
 		data->player.pos_y = i;
 		data->map.pos_x = j; // a supp?
 		data->map.pos_y = i; // a supp?
-		// data->player.dir_x = 'N'; // a voir 
-		// data->player.dir_y = 'N'; // a voir 
+		get_player_direction(tmp_line[j], data);
 	}
 }
 

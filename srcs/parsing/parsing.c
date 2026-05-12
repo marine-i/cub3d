@@ -24,6 +24,7 @@ int	parsing(char *file, t_data *data)
 		return (FAILURE);
 	if (check_map(data) == FAILURE)
 		return (FAILURE);
+	data->map.height = data->map.nb_line_map;
 	return (SUCCESS);
 }
 
