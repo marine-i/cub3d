@@ -2,6 +2,7 @@
 
 void	init_data(t_data *data)
 {
+	// ft_memset(data, 0, sizeof(t_data));
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
 
@@ -25,6 +26,8 @@ void	init_data(t_data *data)
 	data->player.pos_y = -1;
 	data->player.dir_x = -1;
 	data->player.dir_y = -1;
+	data->player.plane_x = -1;
+	data->player.plane_y = -1;
 }
 
 int	close_window(void *param)
@@ -35,16 +38,38 @@ int	close_window(void *param)
 	exit(1);
 }
 
-int	key_hook(int keycode, t_data *game)
+void	handle_mov(int keycode, t_data *data)
 {
-	if (keycode == 65307)
-		close_window(game);
-	// else
-	// 	handle_mov(keycode, game);
-	return (0);
+	double new_x;
+	double new_y;
+
+	new_x = data->player.pos_x;
+	new_y = data->player.pos_y;
+	if (keycode == 119 || keycode == 65362) // W et ^
+	{
+		new_x += data->player.dir_x * MOVE_SPEED;
+		new_y += data->player.dir_y * MOVE_SPEED;
+	}
+	else if (keycode == 115 || keycode == 65364)
+	{
+		new_x -= data->player.dir_x * MOVE_SPEED;
+		new_y -= data->player.dir_y * MOVE_SPEED;
+	}
+	if (data->map.map[(int)data->player.pos_y][(int)new_x] != '1')
+		data->player.pos_x = new_x;
+	if (data->map.map[(int)new_y][(int)data->player.pos_x] != '1')
+		data->player.pos_y = new_y;
+	render_frame(data);
 }
 
-
+int	key_hook(int keycode, t_data *data)
+{
+	if (keycode == 65307)
+		close_window(data);
+	else
+		handle_mov(keycode, data);
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
@@ -59,19 +84,8 @@ int	main(int ac, char **av)
 	render_frame(&data);
 	mlx_hook(data.win_ptr, 2, 1, key_hook, &data);
 	mlx_hook(data.win_ptr, 17, 0, &close_window, &data);
+	// mlx_loop_hook(data.mlx_ptr, &render_frame, &data);
 	mlx_loop(data.mlx_ptr);
 	free_all(&data);
 	return (EXIT_SUCCESS);
 }
-// int	main(void)
-// {
-// 	t_data	data;
-
-// 	init_test_map(&data);
-// 	init_test_player(&data);
-// 	if (init_mlx(&data))
-// 		return (1);
-// 	render_frame(data);
-// 	mlx_loop(data.mlx.mlx_ptr);
-// 	return (0);
-// }

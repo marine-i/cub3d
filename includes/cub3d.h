@@ -13,6 +13,8 @@
 # define WIN_W 1000
 # define WIN_H 800
 
+# define MOVE_SPEED 0.1
+
 
 # define ERR_MALLOC			"Malloc fail"
 # define ERR_ARGS 			"Bad number of arguments"
