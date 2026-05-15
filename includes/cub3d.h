@@ -9,6 +9,9 @@
 # include <fcntl.h>
 # include <X11/keysym.h>
 # include <math.h>
+# include <stdint.h>
+
+typedef int	(*t_fn)(void);
 
 # define WIN_W 1000
 # define WIN_H 800

@@ -32,7 +32,8 @@ void	init_data(t_data *data)
 
 int	close_window(void *param)
 {
-	t_data *data;
+	t_data	*data;
+
 	data = (t_data *)param;
 	free_all(data);
 	exit(1);
@@ -82,8 +83,8 @@ int	main(int ac, char **av)
 		return (free_all(&data), EXIT_FAILURE);
 	init_mlx(&data);
 	render_frame(&data);
-	mlx_hook(data.win_ptr, 2, 1, key_hook, &data);
-	mlx_hook(data.win_ptr, 17, 0, &close_window, &data);
+	mlx_hook(data.win_ptr, 2, 1, (t_fn)(intptr_t)key_hook, &data);
+	mlx_hook(data.win_ptr, 17, 0, (t_fn)(intptr_t)close_window, &data);
 	// mlx_loop_hook(data.mlx_ptr, &render_frame, &data);
 	mlx_loop(data.mlx_ptr);
 	free_all(&data);
