@@ -18,7 +18,6 @@ typedef int	(*t_fn)(void);
 
 # define MOVE_SPEED 0.1
 
-
 # define ERR_MALLOC			"Malloc fail"
 # define ERR_ARGS 			"Bad number of arguments"
 # define ERR_EXT_FILE		"Invalid file extension"

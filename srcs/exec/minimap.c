@@ -49,10 +49,11 @@ void	draw_minimap(t_data *data)
 		}
 		y++;
 	}
-	draw_square(data,
-		MINI_OFFSET_X + (int)(data->player.pos_x * MINI_TILE),
-		MINI_OFFSET_Y + (int)(data->player.pos_y * MINI_TILE),
-		MINI_PLAYER_COLOR);
+	// draw_square(data,
+	// 	MINI_OFFSET_X + (int)(data->player.pos_x * MINI_TILE),
+	// 	MINI_OFFSET_Y + (int)(data->player.pos_y * MINI_TILE),
+	// 	MINI_PLAYER_COLOR);
+	draw_player_on_minimap(data);
 }
 
 void	draw_player_on_minimap(t_data *data)

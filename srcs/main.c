@@ -41,24 +41,30 @@ int	close_window(void *param)
 
 void	handle_mov(int keycode, t_data *data)
 {
-	double new_x;
-	double new_y;
+	double	new_x;
+	double	new_y;
+	double	off_x;
+	double	off_y;
 
-	new_x = data->player.pos_x;
-	new_y = data->player.pos_y;
 	if (keycode == 119 || keycode == 65362) // W et ^
 	{
-		new_x += data->player.dir_x * MOVE_SPEED;
-		new_y += data->player.dir_y * MOVE_SPEED;
+		new_x = data->player.pos_x + data->player.dir_x * MOVE_SPEED;
+		new_y = data->player.pos_y + data->player.dir_y * MOVE_SPEED;
+		off_x = data->player.dir_x * 0.2;
+		off_y = data->player.dir_y * 0.2;
 	}
 	else if (keycode == 115 || keycode == 65364)
 	{
-		new_x -= data->player.dir_x * MOVE_SPEED;
-		new_y -= data->player.dir_y * MOVE_SPEED;
+		new_x = data->player.pos_x - data->player.dir_x * MOVE_SPEED;
+		new_y = data->player.pos_y - data->player.dir_y * MOVE_SPEED;
+		off_x = -data->player.dir_x * 0.2;
+		off_y = -data->player.dir_y * 0.2;
 	}
-	if (data->map.map[(int)data->player.pos_y][(int)new_x] != '1')
+	else
+		return ;
+	if (data->map.map[(int)data->player.pos_y][(int)(new_x + off_x)] != '1')
 		data->player.pos_x = new_x;
-	if (data->map.map[(int)new_y][(int)data->player.pos_x] != '1')
+	if (data->map.map[(int)(new_y + off_y)][(int)data->player.pos_x] != '1')
 		data->player.pos_y = new_y;
 	render_frame(data);
 }

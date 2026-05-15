@@ -46,11 +46,12 @@ void	get_player(t_data *data, int i, int j, char *tmp_line)
 {
 	if (is_player(tmp_line[j]) == SUCCESS)
 	{
-		data->player.pos_x = j;
-		data->player.pos_y = i;
+		data->player.pos_x = j + 0.5;
+		data->player.pos_y = i + 0.5;
 		data->map.pos_x = j; // a supp?
 		data->map.pos_y = i; // a supp?
 		get_player_direction(tmp_line[j], data);
+		tmp_line[j] = '0';
 	}
 }
 
@@ -65,7 +66,9 @@ int	handle_fill_map(int i, t_list *tmp, t_data *data)
 	while (tmp_line[j])
 	{
 		get_player(data, i, j, tmp_line);
-		if (tmp_line[j] == ' ')
+		if (is_player(tmp_line[j]) == SUCCESS)
+			data->map.map[i][j] = '0';
+		else if (tmp_line[j] == ' ')
 			data->map.map[i][j] = '1';
 		else
 			data->map.map[i][j] = tmp_line[j];
