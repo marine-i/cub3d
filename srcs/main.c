@@ -38,6 +38,35 @@ int	close_window(void *param)
 	free_all(data);
 	exit(1);
 }
+#define ROTSPEED 0.3
+
+void	handle_right_left(int keycode, t_data *data)
+{
+	double	oldDirX;
+	double	oldPlaneX;
+
+	oldDirX = data->player.dir_x;
+	oldPlaneX = data->player.plane_x;
+	if(keycode == 65363 || keycode == 100) // RIGHT
+	{
+		//both camera direction and camera plane must be rotated
+		data->player.dir_x = data->player.dir_x * cos(-ROTSPEED) - data->player.dir_y * sin(-ROTSPEED);
+		data->player.dir_y = oldDirX * sin(-ROTSPEED) + data->player.dir_y * cos(-ROTSPEED);
+		data->player.plane_x = data->player.plane_x * cos(-ROTSPEED) - data->player.plane_y * sin(-ROTSPEED);
+		data->player.plane_y = oldPlaneX * sin(-ROTSPEED) + data->player.plane_y * cos(-ROTSPEED);
+	}
+	//rotate to the left
+	if(keycode == 65361 || keycode == 97) // left
+	{
+		//both camera direction and camera plane must be rotated
+		// oldDirX = data->player.dir_x;
+		data->player.dir_x = data->player.dir_x * cos(ROTSPEED) - data->player.dir_y * sin(ROTSPEED);
+		data->player.dir_y = oldDirX * sin(ROTSPEED) + data->player.dir_y * cos(ROTSPEED);
+		// oldPlaneX = data->player.plane_x;
+		data->player.plane_x = data->player.plane_x * cos(ROTSPEED) - data->player.plane_y * sin(ROTSPEED);
+		data->player.plane_y = oldPlaneX * sin(ROTSPEED) + data->player.plane_y * cos(ROTSPEED);
+	}
+}
 
 void	handle_mov(int keycode, t_data *data)
 {
@@ -46,6 +75,7 @@ void	handle_mov(int keycode, t_data *data)
 	double	off_x;
 	double	off_y;
 
+	handle_right_left(keycode, data);
 	if (keycode == 119 || keycode == 65362) // W et ^
 	{
 		new_x = data->player.pos_x + data->player.dir_x * MOVE_SPEED;
